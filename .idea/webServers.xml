@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0c811fd4-09a3-4829-b06e-5069f184f13f" name="BwTransifex" url="https://www.dev4transifex }}.nil">
+        <fileTransfer mountedRoot="/vhosts/dev4transifex" accessType="MOUNT" port="0" />
+      </webServer>
+      <webServer id="12568cbe-6b2f-408e-95da-a713a26a7334" name="BwTransifex_build" url="https://www.dev4transifex }}.nil">
+        <fileTransfer mountedRoot="/vhosts/dev4transifex/build" accessType="MOUNT" port="0" />
+      </webServer>
+      <webServer id="c9fafc1d-aa9b-420e-82cf-844f039bf97e" name="BwTransifex_tests" url="https://www.dev4transifex }}.nil">
+        <fileTransfer mountedRoot="/vhosts/dev4transifex/tests" accessType="MOUNT" port="0" />
+      </webServer>
+      <webServer id="b97f8933-3b00-48ed-a6a6-d826c3b29993" name="Repo" url="http://localhost">
+        <fileTransfer mountedRoot="/repositories/BwTransifex" accessType="MOUNT" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
