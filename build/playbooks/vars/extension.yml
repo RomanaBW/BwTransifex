@@ -1,0 +1,15 @@
+---
+extension_name: "BwTransifex"
+extension_name_lower: "bwtransifex"
+extension_slug: "bwtx"
+extension_vhost: "dev4transifex"
+
+repo_base: /repositories/artifacts
+repo_extension: "/repositories/artifacts/bwtransifex"
+
+server_base_short: /vhosts
+main_server_base: "/data/vhosts"
+
+extension_version: "1.0.0"
+
+

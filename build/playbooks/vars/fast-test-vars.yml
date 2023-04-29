@@ -1,0 +1,43 @@
+---
+base_dir: "{{ server_base_short }}/{{ extension_vhost }}"
+src_dir: "{{ server_base_short }}/{{ extension_vhost }}"
+repo_dir: "/repositories/{{ extension_name }}"
+
+container_base: "/vms/dockers"
+container_dir: "{{ container_base }}/containers"
+
+test_runner: "{{ extension_slug }}_test_runner.sh"
+test_dir: "{{ base_dir }}/tests"
+test_src_dir: "tests"
+
+test_project_base_dir: "/home/romana/PhpstormProjects/BwPostman_J4"
+
+web_dir: "{{ container_base }}/global_data/test_data"
+
+php_version: "7.4.20"
+
+
+
+
+bw_artifacts_base: "{{ repo_base }}/{{ extension_name_lower }}/fast"
+project_base_dir: "/repositories/{{ extension_name }}/"
+
+build: "fast"
+test_suite: "fast"
+
+log_path: '/data/logs'
+record_path: "{{ bw_artifacts_base }}/j{{ joomla_version }}_{{ extension_slug }}{{ extension_version }}/videos"
+test_log_path: "{{ bw_artifacts_base }}/j{{ joomla_version }}_{{ extension_slug }}{{ extension_version }}/logs"
+
+test_db_host: "mysqldb{{ extension_slug }}4"
+test_db_host_ip: "172.18.0.27"
+test_db_dbname: "joomlatest"
+test_db_user: "tester"
+test_db_password: "barbamama"
+
+test_url: "172.18.0.28"
+
+#screen_size: '1440x900'
+screen_size: '1920x1080'
+display: '45'
+

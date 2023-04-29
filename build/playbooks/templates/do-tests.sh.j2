@@ -1,0 +1,104 @@
+#! /bin/bash
+whoami
+
+echo "delete old failure file"
+rm -f {{ codecept_failed_file }}
+
+echo  "delete old X-server lock file"
+sudo rm -f /tmp/.X45-lock
+
+
+# export sudo user
+export BW_TESTER_USER="jenkins"
+export BWPM_VERSION_TO_TEST="${1}"
+export DISPLAY=:{{ display }}
+
+# start x-server
+echo "Display {{ display }}"
+if [ {{ do_record }} = "true" ]; then
+  /usr/bin/Xvfb :{{ display }} -ac -screen 0 {{ screen_size }}x16 &
+fi
+PIDOF_XVFB="$(pidof Xvfb)"
+echo "Pid of Xvfb: ${PIDOF_XVFB}"
+
+java -jar -Dwebdriver.chrome.driver=/opt/selenium/chromedriver-91.0.4472.19 -Dwebdriver.chrome.logfile={{ test_log_path }}/chromedriver.log -Dwebdriver.chrome.verboseLogging=true /opt/selenium/selenium-server-standalone.jar -port 4445 >{{ test_log_path }}/selenium.log 2>{{ test_log_path }}/selenium.log &
+
+# Loop until selenium server is available
+until $(curl --output /dev/null --silent --head --fail http://localhost:4445/wd/hub); do
+    printf '.'
+    sleep 1
+done
+printf '\n'
+
+# Start recording
+echo "Do record: {{ do_record }}"
+if [ {{ do_record }} == "true" ]; then
+  tmux new-session -d -s BwPostmanRecording1 "ffmpeg -y -f x11grab -draw_mouse 0 -video_size {{ screen_size }} -i :{{ display }}.0 -vcodec libx264 -r 12 {{ record_path }}/{{ test_suite }}.mp4 2>{{ test_log_path }}/ffmpeg.log"
+fi
+
+# run tests
+cd /data
+
+codecept build
+
+# initialize failed check variable
+failed_check=0
+
+{% set selected_suite = '' %}
+{% for suite in test_suites if suite.name == test_suite %}
+{% set selected_suite = suite.tests %}
+{% for item in selected_suite %}
+{% for selected_file in test_file if selected_file.suite == item %}
+
+# Start x-server anew, if recording no is selected
+if [ {{ do_record }} != "true" ]; then
+  rm -f /tmp/.X45-lock
+  /usr/bin/Xvfb :{{ display }} -ac -screen 0 {{ screen_size }}x16 &
+  echo "PID of Xvfb before test: $(pidof Xvfb)"
+  PIDOF_XVFB="$(pidof Xvfb)"
+fi
+
+if [ ${failed_check} = 0 ]; then
+  codecept run acceptance {{ selected_file.testsuite_file }} {{ bw_debug }} -vvv --xml xmlreports/report_{{ item }}.xml --html htmlreports/report_{{ item }}.html
+#  codecept run acceptance {{ selected_file.testsuite_file }} --debug -vvv --xml xmlreports/report_{{ item }}.xml --html htmlreports/report_{{ item }}.html
+fi
+
+echo "PID of Xvfb after test: ${PIDOF_XVFB}"
+# Kill Xvfb
+if [ {{ do_record }} != "true" ]; then
+  echo "PID of Xvfb after test Point 2: ${PIDOF_XVFB}"
+  if [ ! -z "${PIDOF_XVFB}" ]; then
+    echo "Xvfb is to kill Point 1"
+    echo $PIDOF_XVFB | xargs kill -9
+    echo "PID of Xvfb after kill: $(pidof Xvfb)"
+    sleep 2
+  fi
+fi
+
+if [ -f {{ codecept_failed_file }} ]; then
+  echo "Current test {{ item }} failed!"
+  failed_check=1
+fi
+{% endfor %}
+{% endfor %}
+{% endfor %}
+
+# Wait for browser to close
+sleep 1
+
+# Stop recording
+if [ {{ do_record }} == "true" ]; then
+  tmux send-keys -t BwPostmanRecording1 q
+fi
+
+# Kill Xvfb
+if [ -z "$PIDOF_XVFB" ]; then
+  echo "Xvfb is to kill Point 2"
+  kill $PIDOF_XVFB
+fi
+
+# Ensure X-server lock file is removed
+rm -f /tmp/.X45-lock
+
+
+  exit ${failed_check}

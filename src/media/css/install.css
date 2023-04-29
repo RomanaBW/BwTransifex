@@ -1,0 +1,142 @@
+/**
+ * BwTransifex Component
+ *
+ * BwTransifex component CSS-styles for installation.
+ *
+ *
+ * @version %%version_number%%
+ * @package BwTransifex Package
+ * @subpackage BwTransifex Component
+ * @author Romana Boldt
+ * @copyright (C) %%copyright_year%% Boldt Webservice <forum@boldt-webservice.de>
+ * @support https://www.boldt-webservice.de/en/forum-en/forum/bwtransifex.html
+ * @license GNU/GPL, see LICENSE.txt
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#bw_installation_header {
+	background: #FFF440;
+	margin: -1rem -16px 0 -16px;
+	text-align: center;
+}
+
+div.top_line {
+	background-color: #005A00;
+	height: 5px;
+	margin: 0 -16px;
+}
+
+#bw_installation_outer {
+	margin: 0 -16px -1.0rem -16px;
+	padding-top: 1.0rem;
+	background: url(../images/verlauf_gelb_2.png) repeat;
+}
+
+#bw_installation_outer h1 {
+	margin: 0 0 1em 0;
+	color: #2B5741;
+	text-align: center;
+}
+
+#bw_installation_left {
+}
+
+
+#bw_installation_right {
+}
+
+#bw_installation_outer p {
+}
+
+.bw_installation_welcome {
+	text-align: center;
+}
+
+.bw_installation_finished {
+	padding: 2.0rem;
+}
+
+.bw_installation_finished h2 {
+//	color: #2B5741;
+}
+
+.bw_installation_specialnote {
+	/*	background: rgba(180, 90, 0, 0.2);*/
+	border-radius: 5px;
+	border: rgba(180, 90, 0, 1) 3px solid;
+	margin: 0 0 2em 0;
+	padding: 1em;
+	color: #ff0000;
+}
+
+.bw_installation_updateinfo {
+	/*	background: rgba(0, 90, 0, 0.2);*/
+	border-radius: 5px;
+	border: rgba(0, 90, 0, 1) 1px solid;
+	color: #2B5741;
+}
+
+.bw_installation_updateinfo h2, .bw_installation_specialnote h2 {
+}
+
+.bw_installation_updateinfo h3, .bw_installation_specialnote h3 {
+}
+
+.cpanel {
+}
+
+.cpanel div.icon {
+	margin: 1.0em;
+}
+
+.clr {
+	clear: both;
+}
+
+.bw_installation_footer, .bw_installation_footer p {
+	padding-top: 1.0em;
+}
+
+.bw_installation_footer p a img {
+	border-radius: 5px;
+	margin: 0 0 0.3em 0;
+}
+
+.small {
+}
+
+.error {
+	color : #cc0000;
+	font-size : 12px;
+	font-weight : bold;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.urgent {
+	color: #cc0000;
+}
+
+/* 48x48 images and joomla overide to use it*/
+#cpanel span.icon48 {
+	display: inline-block !important;
+	height: 48px;
+	width: 48px;
+	margin-top: 10px;
+}
+
+#cpanel div.icon {
+	cursor: pointer;
+}

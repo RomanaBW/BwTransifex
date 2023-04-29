@@ -1,0 +1,29 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_bwtransifex",
+  "version": "joomla_minimum_version",
+  "description": "BwTransifex Package",
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
+      "name": "com_bwtransifex.bwtransifex_admin",
+      "type": "style",
+      "uri": "com_bwtransifex/bwtransifex_admin.css"
+    },
+    {
+      "name": "com_bwtransifex.bwtransifex_site",
+      "type": "style",
+      "uri": "com_bwtransifex/bwtransifex_site.css"
+    },
+    {
+      "name": "com_bwtransifex.install",
+      "type": "style",
+      "uri": "com_bwtransifex/install.css"
+    },
+    {
+      "name": "com_bwtransifex.admin-bwtransifex-modal",
+      "type": "script",
+      "uri": "com_bwtransifex/admin-bwtransifex-modal.js"
+    }
+  ]
+}

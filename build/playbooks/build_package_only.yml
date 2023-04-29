@@ -1,0 +1,115 @@
+---
+- hosts: localhost
+  vars_files:
+    - vars/extension.yml
+    - vars/vars.yml
+    - vars/tester-image-vars.yml
+
+  vars:
+    project_source_dir: "/home/romana/PhpstormProjects/{{ extension_name }}"
+    project_base_dir: "/home/romana/Zwischenlager/{{ extension_name }}/workdir"
+    target_ext_path: "{{ target_base_path }}/{{ extension_name }}4"
+    version_number: "{{ extension_version }}"
+    build: "tmp"
+    mb4_support: true
+    replace_vars: "{{ repl_vars | default(true) }}"
+
+  tasks:
+    - name: Show switch for variable replacement
+      debug:
+        msg: "Replace vars: {{ replace_vars }}"
+
+    - name: Ensure project working folder and sub folders exists part 1
+      file:
+        path: "{{ project_base_dir }}/src/{{ item.path }}"
+        state: directory
+        mode: 0777
+        owner: romana
+        group: users
+      with_filetree:
+        - "{{ project_source_dir }}/src"
+      when: item.state == 'directory'
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: Ensure project working folder and sub folders exists part 2
+      file:
+        path: "{{ project_base_dir }}/build/manifests"
+        state: directory
+        mode: 0777
+        owner: romana
+        group: users
+
+    - name: Synchronize source files to working dir
+      synchronize:
+        src: "{{ item.src }}"
+        dest: "{{ project_base_dir }}/src/{{ item.path }}"
+        delete: yes
+        owner: yes
+      with_filetree:
+        - "{{ project_source_dir }}/src"
+      when: item.state == 'file'
+      loop_control:
+        label: "{{ item.path }}"
+
+    - name: Copy manifest files to working dir
+      copy:
+        src: "{{ item.src }}"
+        dest: "{{ project_base_dir }}/build/manifests/{{ item.path }}"
+        mode: 0777
+        owner: romana
+        group: users
+      with_filetree:
+        - "{{ project_source_dir }}/build/manifests"
+      when: item.state == 'file'
+      loop_control:
+        label: "{{ item.path }}"
+
+
+    - name: Remove folders which are not needed
+      file:
+        path: "{{ project_base_dir }}/src/{{ item }}"
+        state: absent
+      with_items: "{{ to_delete }}"
+      ignore_errors: yes
+
+#   inject current variable values (version, build, copyright year)
+    - include_role:
+        name: romanabw.inject-current-build-variables
+      vars:
+        bw_version: "{{ version_number }}"
+        bw_build: "{{ build }}"
+        bw_workspace: "{{ project_base_dir }}"
+        bw_manifest_list: "{{ manifest_list }}"
+      when: replace_vars|bool
+
+#   build component package
+    - include_role:
+        name: romanabw.build-jcomponent-package
+      vars:
+        bw_workspace: "{{ project_base_dir }}/src"
+        bw_extension: "{{ extension_name }}"
+        bw_target_ext_path: "{{ project_base_dir }}"
+        bw_languages: "{{ languages }}"
+        bw_mb4_support: "{{ mb4_support }}"
+        bw_media_folder: "com_{ extension_name_lower }}"
+
+    - name: copy package to test data folder with build and version number
+      copy:
+        src: "{{ project_base_dir }}/com_{{ extension_name }}.zip"
+        dest: "{{ artifact_path }}/data/com_{{ extension_name }}-{{ version_number }}.{{ build }}.zip"
+#      when: not replace_vars|bool
+
+    - name: Show package target path
+      debug:
+        msg: "{{ artifact_path }}/data/com_{{ extension_name }}.zip"
+
+    - name: copy package to test data folder without build and version number
+      copy:
+        src: "{{ project_base_dir }}/com_{{ extension_name }}.zip"
+        dest: "{{ artifact_path }}/data/com_{{ extension_name }}.zip"
+
+    - name: copy changelog to test data folder
+      copy:
+        src: "{{ project_base_dir }}/src/administrator/components/com_{ extension_name_lower }}/CHANGELOG.txt"
+        dest: "{{ artifact_path }}/data/CHANGELOG"

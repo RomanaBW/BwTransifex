@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="4.0" method="upgrade">
+    <name>COM_BWTRANSIFEX</name>
+    <creationDate>%%creation_date%%</creationDate>
+    <author>Boldt Webservice</author>
+    <authorEmail>forum@boldt-webservice.de</authorEmail>
+    <authorUrl>https://www.boldt-webservice.de</authorUrl>
+    <copyright>www.boldt-webservice.de. All rights reserved.</copyright>
+    <license>This component is released under the GNU/GPLv3 License or later</license>
+    <version>1.0.0</version>
+    <description>COM_BWTRANSIFEX_COMPONENT_DESCRIPTION</description>
+    <namespace path="src">BoldtWebservice\Component\BwTransifex</namespace>
+
+    <install>
+        <sql>
+            <file charset="utf8" driver="mysql">sql/install.mysql.sql</file>
+        </sql>
+    </install>
+
+    <uninstall>
+        <sql>
+            <file charset="utf8" driver="mysql">sql/uninstall.mysql.sql</file>
+        </sql>
+    </uninstall>
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates/mysql</schemapath>
+        </schemas>
+    </update>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <folder>Helper</folder>
+        <folder>layouts</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+    </files>
+
+    <languages folder="site/language">
+        <language tag="en-GB">en-GB/com_bwtransifex.ini</language>
+        <language tag="de-DE">de-DE/com_bwtransifex.ini</language>
+    </languages>
+
+    <!-- See https://docs.joomla.org/J4.x:Web_Assets and https://joomla.stackexchange.com/questions/29044/how-to-use-joomla-asset-json-correctly -->
+    <media destination="com_bwtransifex" folder="media">
+        <folder>css</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <filename>joomla.asset.json</filename>
+    </media>
+
+
+    <administration>
+        <menu>COM_BWTRANSIFEX_MENU_MAIN</menu>
+            <submenu>
+            <!--
+			Note that all & must be escaped to &amp; for the file to be valid
+			XML and be parsed by the installer
+		    -->
+            <menu link="option=com_bwtransifex&amp;view=projects" img="class:list">COM_BWTRANSIFEX_MENU_ENTRY_LIST_PROJECTS</menu>
+            <menu link="option=com_bwtransifex&amp;view=project" task="add" img="class:newarticle">COM_BWTRANSIFEX_MENU_ENTRY_ADD_PROJECT</menu>
+            <menu link="option=com_config&amp;view=component&amp;component=com_bwtransifex" img="class:config">JTOOLBAR_OPTIONS</menu>
+        </submenu>
+
+        <files folder="admin">
+            <filename>access.xml</filename>
+            <filename>CHANGELOG.txt</filename>
+            <filename>config.xml</filename>
+            <filename>index.html</filename>
+            <filename>LICENSE.txt</filename>
+            <filename>install.php</filename>
+            <folder>forms</folder>
+            <folder>layouts</folder>
+            <folder>libraries</folder>
+            <folder>services</folder>
+            <folder>sql</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+        </files>
+
+        <languages folder="admin/language">
+            <language tag="en-GB">en-GB/com_bwtransifex.ini</language>
+            <language tag="en-GB">en-GB/com_bwtransifex.sys.ini</language>
+            <language tag="de-DE">de-DE/com_bwtransifex.ini</language>
+            <language tag="de-DE">de-DE/com_bwtransifex.sys.ini</language>
+        </languages>
+
+    </administration>
+
+    <scriptfile>install.php</scriptfile>
+
+    <updateservers>
+        <server type="extension" priority="1" name="BwTransifex Updates">https://www.boldt-webservice.de/updateservers/bwtransifex/bwtransifex_update.xml</server>
+    </updateservers>
+</extension>

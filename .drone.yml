@@ -1,0 +1,111 @@
+---
+global-variables:
+  environment: &default_environment
+    PROJECT_VERSION: "1.0.0"
+    JOOMLA_VERSION: "4.3.0"
+    ANSIBLE_CONFIG: "/repositories/BwTransifex/build/playbooks"
+    ANSIBLE_INVENTORY: "build/playbooks/inventory/hosts"
+    ANSIBLE_ROLES_PATH: "./roles:/repositories/systemscripts/Ansible/roles/roles"
+    ANSIBLE_JINJA2_EXTENSIONS: "jinja2.ext.do,jinja2.ext.i18n"
+    ANSIBLE_RETRY_FILES_ENABLED: "false"
+    ANSIBLE_CALLBACKS_ENABLED: "profile_tasks"
+    ANSIBLE_PYTHON_INTERPRETER: "auto_silent"
+
+name: default
+
+kind: pipeline
+type: docker
+
+steps:
+  - name: Create full installation package
+    image: plugins/ansible:3
+    environment:
+      <<: *default_environment
+    settings:
+      playbook: build/playbooks/build-package.yml
+      inventory: build/playbooks/inventory/hosts
+      extra_vars: replace_vars=true
+    volumes:
+      - name: artifacts
+        path: "/repositories/artifacts"/"bwtransifex"
+      - name: ansibleroles
+        path: "/repositories/systemscripts/Ansible/roles/roles"
+      - name: "BwCommons"
+        path: "/repositories/BwCommons/docs"
+
+# This step does not work, variables are empty
+  - name: Debug some variables
+    image: plugins/drone-diagnostics
+    commands:
+      - echo DRONE_TAG ${DRONE_TAG}
+      - echo DRONE_SEMVER_SHORT ${DRONE_SEMVER_SHORT}
+
+
+  - name: Copy installation package to remote server
+    image: appleboy/drone-scp
+    environment:
+      <<: *default_environment
+    settings:
+      host: "w0182587.kasserver.com"
+      username: "ssh-w0182587"
+      key:
+        from_secret: ai_key
+      port: "22"
+      target: /www/htdocs/w0182587/webservice/download/bwtransifex/dev/${DRONE_SEMVER_SHORT}.${DRONE_BUILD_NUMBER}
+      source: /repositories/artifacts/bwtransifex/data/pkg_bwtransifex-${DRONE_SEMVER_SHORT}.${DRONE_BUILD_NUMBER}.zip
+      strip_components: 4
+    volumes:
+      - name: artifacts
+        path: "/repositories/artifacts/bwtransifex"
+
+volumes:
+  - name: artifacts
+    host:
+      path: "/repositories/artifacts/bwtransifex"
+  - name: ansibleroles
+    host:
+      path: "/repositories/systemscripts/Ansible/roles/roles"
+  - name: "BwCommons"
+    host:
+      path: "/repositories/BwCommons/docs"
+
+
+#  - name: Run smoke tests with php 8
+#    commands:
+#      - echo Run smoke tests with php 8
+#
+#  - name: create test runner
+#    image: plugins/ansible:3
+#    settings:
+#      playbook: build/playbooks/build-run-smoke-tests.yml
+#      inventory: build/playbooks/hosts
+#      extra_vars: project_base_dir=*DRONE_WORKSPACE,do_record=true,*VERSIONS_EXTRA_VAR_4
+#
+#  - name: Run smoke tests
+#    commands:
+#      - echo docker exec -t bwpm_enh_tester-4 /data/do-tests.sh *BWPM_VERSION
+#
+#  - name: push test runner to registry
+#    image: plugins/ansible:3
+#    settings:
+#      playbook: build/playbooks/push-smoke-testers.yml
+#      inventory: build/playbooks/hosts
+#      extra_vars: *VERSIONS_EXTRA_VAR_4
+#
+#  - name: Run acceptance Joomla 4 with php 8
+#    commands:
+#      - echo Run acceptance Joomla 4 with php 8
+#
+#  - name: Send success mail for php 8 part
+#    commands:
+#      - echo Send success mail for php 8 part
+#
+#  - name: Dev-Upload
+#    commands:
+#      - echo Dev-Upload
+#
+#  - name: Push to github
+#    commands:
+#      - echo Push to github
+#
+#

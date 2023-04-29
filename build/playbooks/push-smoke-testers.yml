@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  pre_tasks:
+  connection: local
+  vars_files:
+    - vars/extension.yml
+    - vars/codecept_paths.yml
+    - vars/tester-image-vars.yml
+    - vars/tester-test-vars.yml
+
+  tasks:
+    - name: push all test containers (db, webserver, tester)
+      include_role:
+        name: romanabw.push-complete-infrastructure
+      vars:
+        source: "{{ smoke_source }}"
+        target: "{{ smoke_target }}"
+        push_tester: true
+
+    - name: Set variable for current joomla sub folder
+      set_fact:
+        sub_path: "smoke_j{{ j_main_version }}"
+
+    - name: ensure folder images/com_bwpostman exists
+      become: true
+      become_user: root
+      file:
+        path: "{{ joomla_base_folders[sub_path] }}/images/com_bwpostman"
+        state: directory
+        mode: 0777
+        owner: "1200"
+        group: users
+
+    - name: create acceptance webroot folders and copy joomla files
+      include_role:
+        name: romanabw.create-copy-webroot-folders
+      vars:
+        target_folder: "{{ item }}"
+        source_folder: "{{ joomla_base_folders[sub_path] }}"
+      with_items: "{{ acceptance_j4_folders }}"
+      when: j_main_version == '4'

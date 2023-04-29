@@ -1,0 +1,6 @@
+---
+vault_test_db_user_1: "root"
+vault_test_db_password_1: "barbapapa"
+
+vault_test_db_user_2: "tester"
+vault_test_db_password_2: "barbamama"

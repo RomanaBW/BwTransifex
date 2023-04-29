@@ -1,0 +1,165 @@
+---
+log_path: '/data/logs'
+record_path: "/data/{{ repo_base }}/{{ extension_name_lower }}/j{{ joomla_version }}_{{ extension_slug }}{{ version_number }}/{{ test_suite }}/videos"
+test_log_path: "/{{ repo_base }}/{{ extension_name_lower }}/j{{ joomla_version }}_{{ extension_slug }}{{ version_number }}/{{ test_suite }}/logs"
+
+acceptance_manifest_path: "/data/tests"
+codeception_manifest_path: "/data"
+
+tester_url: "https://www{{ server_node }}.tester-net.nil"
+
+test_db_host: "localhost"
+test_db_dbname: "joomlatest"
+test_db_user: "{{ vault_test_db_user_1 }}"
+test_db_password: "{{ vault_test_db_password_1 }}"
+
+#screen_size: '1440x900'
+screen_size: '1920x1080'
+display: ':45'
+
+test_file:
+  - suite: installRequired
+    testsuite_file: Backend/Additional/InstallRequiredCest
+
+  - suite: installVirtuemart
+    testsuite_file: Backend/Additional/InstallVirtuemartCest
+
+  - suite: install
+    testsuite_file: Backend/TestInstallationCest
+
+  - suite: update
+    testsuite_file: Backend/TestUpdateCest
+
+  - suite: uninstall
+    testsuite_file: Backend/TestDeinstallationCest
+
+  - suite: options
+    testsuite_file: Backend/TestOptionsCest
+
+  - suite: lists
+    testsuite_file: Backend/Lists/
+
+  - suite: maintenance
+    testsuite_file: Backend/TestMaintenanceCest
+
+  - suite: restore
+    testsuite_file: Backend/TestMaintenanceCest::restoreTablesNoZip
+
+  - suite: defaultOptions
+    testsuite_file: Backend/TestOptionsCest::saveDefaults
+
+  - suite: setPermissions
+    testsuite_file: Backend/TestOptionsCest::setPermissions
+
+  - suite: frontend
+    testsuite_file: Frontend
+
+  - suite: details
+    testsuite_file: Backend/Details
+
+  - suite: user2subscriber
+    testsuite_file: User2Subscriber/User2SubscriberCest
+
+  - suite: footerusedmailinglists
+    testsuite_file: FooterUsedMailinglists
+
+  - suite: useraccount
+    testsuite_file: UserAccount
+
+  - suite: createUsers
+    testsuite_file: Backend/Access/TestInstallUsersCest
+
+  - suite: access1
+    testsuite_file: Backend/Access/TestAccessCest::TestAccessRightsForListViewButtonsFromMainView
+
+  - suite: access2
+    testsuite_file: Backend/Access/TestAccessCest::TestAccessRightsForAddButtonsFromMainView
+
+  - suite: access3
+    testsuite_file: Backend/Access/TestAccessCest::TestAccessRightsForActionsInListsByButtonsPart1
+
+  - suite: access4
+    testsuite_file: Backend/Access/TestAccessCest::TestAccessRightsForActionsInListsByButtonsPart2
+
+  - suite: ModReg
+    testsuite_file: Module_Register/SubscribeModuleCest
+
+  - suite: ModOverview
+    testsuite_file: ModuleOverview/ModuleOverviewCest
+
+  - suite: installB2S
+    testsuite_file: Buyer2Subscriber/Buyer2SubscriberInstallCest
+
+  - suite: B2S
+    testsuite_file: Buyer2Subscriber/Buyer2SubscriberCest
+
+  - suite: TC
+    testsuite_file: TimeControl/TimeControlCest
+#  - personalize:
+
+#  - restore:
+
+test_suites:
+  - name: ext_install
+    tests:
+      - installRequired
+
+  - name: vm_install
+    tests:
+      - installVirtuemart
+
+  - name: smoke
+    tests:
+      - install
+      - defaultOptions
+      - createUsers
+      - restore
+      - setPermissions
+
+  - name: uninstall
+    tests:
+      - uninstall
+
+  - name: accept1
+    tests:
+      - maintenance
+      - lists
+      - access2
+
+  - name: accept2
+    tests:
+      - details
+
+  - name: accept3
+    tests:
+      - access4
+
+  - name: accept4
+    tests:
+      - access1
+      - footerusedmailinglists
+      - user2subscriber
+      - useraccount
+      - ModReg
+      - ModOverview
+
+  - name: accept5
+    tests:
+      - access3
+      - frontend
+
+  - name: accept6
+    tests:
+  #  - personalize
+
+  - name: accept7
+    tests:
+
+  - name: acceptB2S
+    tests:
+      - installB2S
+      - B2S
+
+  - name: acceptTC
+    tests:
+      - TC

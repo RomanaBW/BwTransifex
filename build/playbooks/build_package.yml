@@ -1,0 +1,63 @@
+---
+- hosts: localhost
+  vars_files:
+    - vars/vars.yml
+
+  vars:
+    target_ext_path: "{{ target_base_path }}/{{ extension_name }}"
+
+  tasks:
+    - name: Remove folders which are not needed
+      file:
+        path: "{{ project_base_dir }}/src/{{ item }}"
+        state: absent
+      with_items: "{{ to_delete }}"
+      ignore_errors: yes
+
+    - name: Ensure target extension folder exists
+      file:
+        path: "{{ target_base_path }}/{{ extension_name }}"
+        state: directory
+        mode: 0777
+        owner: romana
+        group: users
+
+#   inject current variable values (version, build, copyright year)
+    - include_role:
+        name: romanabw.inject-current-build-variables
+      vars:
+        bw_version: "{{ version_number }}"
+        bw_build: "{{ build }}"
+        bw_workspace: "{{ project_base_dir }}"
+        bw_manifest_list: "{{ manifest_list }}"
+      when: replace_vars|bool
+
+#   build component package
+    - include_role:
+        name: romanabw.build-jcomponent-package
+      vars:
+        bw_workspace: "{{ project_base_dir }}/src"
+        bw_extension: "{{ extension_name }}"
+        bw_target_ext_path: "{{ target_ext_path }}"
+        bw_languages: "{{ languages }}"
+        bw_mb4_support: ""
+        bw_media_folder: "com_{{ extension_name_lower }}"
+
+    - name: copy package to test data folder with build and version number
+      copy:
+        src: "{{ target_base_path }}/{{ extension_name }}/com_{{ extension_name }}.zip"
+        dest: "{{ artifact_path }}/data/com_{{ extension_name }}-{{ version_number }}.{{ build }}.zip"
+
+    - name: Show package target path
+      debug:
+        msg: "{{ artifact_path }}/data/com_{{ extension_name }}.zip"
+
+    - name: copy package to test data folder without build and version number
+      copy:
+        src: "{{ target_base_path }}/{{ extension_name }}/com_{{ extension_name }}.zip"
+        dest: "{{ artifact_path }}/data/com_{{ extension_name }}.zip"
+
+    - name: copy changelog to test data folder
+      copy:
+        src: "{{ project_base_dir }}/src/administrator/components/com_{ extension_name_lower }}/CHANGELOG.txt"
+        dest: "{{ artifact_path }}/data/CHANGELOG"

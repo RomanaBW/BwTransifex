@@ -1,0 +1,23 @@
+---
+extension_name_lower: bwtransifex
+bw_artifacts_base: "/repositories/artifacts/{{ extension_name_lower }}"
+project_base_dir: "/vhosts/dev4"
+#project_base_dir: "/repositories/BwPostman4/"
+#bw_debug: "--debug"
+bw_debug: ""
+
+build: "smoke"
+test_suite: "smoke"
+
+log_path: '/data/logs'
+record_path: "/repositories/artifacts/{{ extension_name_lower }}/j{{ joomla_version }}_{{ extension_slug }}{{ extension_version }}/{{ test_suite }}/videos"
+test_log_path: "/repositories/artifacts/{{ extension_name_lower }}/j{{ joomla_version }}_{{ extension_slug }}{{ extension_version }}/{{ test_suite }}/logs"
+
+test_db_host: "joomla_db"
+test_db_dbname: "joomlatest"
+test_db_user: "tester"
+test_db_password: "barbamama"
+
+#screen_size: '1440x900'
+screen_size: '1920x1080'
+display: '45'

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="package" version="3.8" method="upgrade">
+	<name>BwTransifex Complete Package</name>
+	<creationDate>%%creation_date%%</creationDate>
+	<author>Boldt Webservice</author>
+	<authorEmail>forum@boldt-webservice.de</authorEmail>
+	<url>https://www.boldt-webservice.de</url>
+	<copyright>www.boldt-webservice.de</copyright>
+	<license>This component is released under the GNU/GPLv3 License or later</license>
+
+	<version>%%version_number%%</version>
+
+	<packagename>bwtransifex</packagename>
+	<packager>Boldt Webservice</packager>
+	<packagerurl>https://www.boldt-webservice.de</packagerurl>
+	<blockChildUninstall>true</blockChildUninstall>
+
+	<scriptfile>pkg_script.php</scriptfile>
+
+	<files folder="packages">
+		<file type="component" id="com_bwtransifex" >com_bwtransifex.zip</file>
+	</files>
+
+	<compatibility>
+		<version>4</version>
+	</compatibility>
+</extension>

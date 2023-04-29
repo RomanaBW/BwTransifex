@@ -1,0 +1,9 @@
+---
+codecept_path_tests: "tests"
+codecept_path_data: "/{{ repo_base }}/{{ extension_name_lower }}/data"
+codecept_path_support: "tests/_support"
+codecept_path_output: "/{{ repo_base }}/{{ extension_name_lower }}/j{{ joomla_version }}_{{ extension_slug }}{{ extension_version }}/{{ test_suite }}/logs"
+codecept_failed_file: "{{ codecept_path_output }}/failed"
+
+test_files_source: "{{ bw_project_base_dir }}/tests/"
+test_files_source_local: "{{ server_base_short }}/{{ extension_vhost }}/tests/"

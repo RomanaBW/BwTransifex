@@ -1,0 +1,22 @@
+---
+extension_name: "{{ extension_name_lower }}"
+
+target_base_path: "{{ repo_base }}"
+test_data_path: "/repositories/{{ extension_name }}/tests/data"
+artifact_path: "{{ repo_base }}{{ extension_name_lower }}"
+
+package_parts:
+  - com_{{ extension_name_lower }}
+
+languages:
+  - de-DE
+  - en-GB
+
+to_delete:
+  - index.php
+  - administrator/index.php
+  - plugins/composer.json
+  - plugins/composer.lock
+
+manifest_list:
+  - src/administrator/components/com_{{ extension_name_lower }}/{{ extension_name_lower }}.xml

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+   <layout title="COM_BWTRANSIFEX_MENU_PROJECT">
+      <message>
+         <![CDATA[COM_BWTRANSIFEX_MENU_PROJECT_NOTE]]>
+      </message>
+   </layout>
+   <fields name="request">
+      <fieldset name="request">
+         <field
+                 name="id"
+                 type="singlePROJECT"
+                 required="true"
+                 default="0"
+                 label="COM_BWTRANSIFEX_MENU_PROJECT_SELECT_PROJECTLABEL"
+                 description="COM_BWTRANSIFEX_MENU_PROJECT_SELECT_PROJECTDESC"
+                 addfieldprefix="BoldtWebservice\Component\BwTransifex\Administrator\Field" />
+      </fieldset>
+   </fields>
+</metadata>

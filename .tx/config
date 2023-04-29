@@ -1,0 +1,22 @@
+[main]
+host = "https://www.transifex.com"
+lang_map = "en_GB: en-GB, de_DE: de-DE"
+type = "INI"
+
+["bwtransifex".admin-en-gb-com-"bwtransifex"]
+file_filter = src/administrator/language/<lang>/com_"bwtransifex".ini
+minimum_perc = 0
+source_file = src/administrator/language/en-GB/scom_"bwtransifex".ini
+source_lang = en_GB
+
+["bwtransifex".admin-en-gb-com-"bwtransifex"-sys]
+file_filter = src/administrator/language/<lang>/com_"bwtransifex".sys.ini
+minimum_perc = 0
+source_file = src/administrator/language/en-GB/com_"bwtransifex".sys.ini
+source_lang = en_GB
+
+["bwtransifex".site-en-gb-com-"bwtransifex"]
+file_filter = src/language/<lang>/com_"bwtransifex".ini
+minimum_perc = 0
+source_file = src/language/en-GB/com_"bwtransifex".ini
+source_lang = en-GB

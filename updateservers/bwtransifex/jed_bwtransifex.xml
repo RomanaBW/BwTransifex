@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jedupdate version="1">
+	<core_body>
+		BwTransifex is a extension for Joomla!® 4+.
+
+		**BwTransifex main features:**
+
+		-
+	</core_body>
+
+	<!-- valid links only or leave blank -->
+	<homepage_link>https://www.boldt-webservice.de</homepage_link>
+	<download_link>https://www.boldt-webservice.de/index.php/en/joomla-extensions/bwtransifex/bwtransifex.html</download_link>
+	<demo_link>https://demo.boldt-webservice.de/</demo_link>
+	<documentation_link>https://www.boldt-webservice.de/index.php/en/forum-en/manuals/bwtransifex-manual.html</documentation_link>
+	<support_link>https://www.boldt-webservice.de/index.php/en/forum-en/forum/bwtransifex.html</support_link>
+
+	<version>1.0.0</version>
+
+	<compatibility>
+		<version>4</version>
+	</compatibility>
+</jedupdate>

@@ -1,0 +1,10 @@
+*************************************
+Changelog for BWTRANSIFEX Component
+*************************************
+
+This is a changelog for the Joomla!3.10+ component BWTRANSIFEX
+Many thanks to all those people who have contributed bug reports and code fixes.
+
+Version 1.0.0 released ()----
+
+Initial version
